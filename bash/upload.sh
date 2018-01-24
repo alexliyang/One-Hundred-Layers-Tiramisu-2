@@ -1,6 +1,6 @@
 #/bin/bash
 
-if [ ! -d "./CamVid" ]; then
+if [ ! -d "../CamVid" ]; then
   echo "Please put your Camvid directory here."
   echo "You can download it from https://github.com/alexgkendall/SegNet-Tutorial.git by git."
   exit
