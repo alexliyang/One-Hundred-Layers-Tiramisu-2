@@ -21,4 +21,4 @@ function upload() {
 
 upload cudnn-9.1-linux-x64-v7.tgz
 upload cuda-repo-ubuntu1604_9.1.85-1_amd64.deb
-upload CamVid
+upload ../CamVid
