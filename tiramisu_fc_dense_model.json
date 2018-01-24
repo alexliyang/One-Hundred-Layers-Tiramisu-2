@@ -16780,8 +16780,8 @@
                "name": "reshape_1",
                "trainable": true,
                "target_shape": [
-                  12,
-                  50176
+                  50176,
+                  12
                ]
             },
             "inbound_nodes": [

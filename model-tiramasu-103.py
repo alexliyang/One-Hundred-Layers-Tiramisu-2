@@ -157,7 +157,7 @@ class Tiramisu():
                                   padding='same',
                                   kernel_initializer='he_uniform',
                                   kernel_regularizer=l2(0.0001))(tiramisu)
-            tiramisu = Reshape((classes, input_shape[0] * input_shape[1]))(tiramisu)
+            tiramisu = Reshape((input_shape[0] * input_shape[1], classes))(tiramisu)
             tiramisu = Activation('softmax')(tiramisu)
 
             model = Model(inputs=input, outputs=tiramisu)

@@ -124,8 +124,12 @@ batch_size = 2
 
 
 # Fit the model
-history = tiramisu.fit(train_data, train_label, batch_size=batch_size, epochs=nb_epoch,
-	callbacks=callbacks_list, class_weight=class_weighting,verbose=1, validation_data=(test_data, test_label), shuffle=True) # validation_split=0.33
+history = tiramisu.fit(x=train_data, y=train_label,
+                       batch_size=batch_size, epochs=nb_epoch,
+                       callbacks=callbacks_list, 
+                       class_weight=class_weighting, 
+                       verbose=1, shuffle=True,
+                       validation_data=(test_data, test_label)) # validation_split=0.33
 
 
 
