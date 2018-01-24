@@ -34,7 +34,7 @@ class Tiramisu():
     # axis=1 <-> data_format='channels_last'
 
     def __init__(self, input_shape=(224, 224, 3),
-                 first_conv_filters=48, growth_rate=12, pools=5,
+                 first_conv_filters=48, growth_rate=12, pools=5, classes=12,
                  block_layers=[4, 5, 7, 10, 12, 15, 12, 10, 7, 5, 4]):
         if type(block_layers) == list:
             assert(len(block_layers) == 2 * pools + 1)
@@ -43,7 +43,7 @@ class Tiramisu():
         else:
             raise ValueError
 
-        self.create(first_conv_filters, input_shape, pools, block_layers, growth_rate)
+        self.create(first_conv_filters, input_shape, pools, block_layers, growth_rate, classes)
 
     """
     keras v1 (https://faroit.github.io/keras-docs/1.2.2/layers/normalization/)
@@ -93,7 +93,7 @@ class Tiramisu():
         return helper
 
 
-    def create(self, first_conv_filters, input_shape, pools, block_layers, growth_rate):
+    def create(self, first_conv_filters, input_shape, pools, block_layers, growth_rate, classes):
         def f():
             input = Input(shape=input_shape)
 
@@ -155,11 +155,11 @@ class Tiramisu():
                     upsample_tiramisu.append(l)
                     tiramisu = Concatenate()([tiramisu, l])
 
-            tiramisu = Conv2D(12, kernel_size=(1, 1),
+            tiramisu = Conv2D(classes, kernel_size=(1, 1),
                                   padding='same',
                                   kernel_initializer='he_uniform',
                                   kernel_regularizer=l2(0.0001))(tiramisu)
-            tiramisu = Reshape((12, 224 * 224))(tiramisu)
+            tiramisu = Reshape((classes, input_shape[0] * input_shape[1]))(tiramisu)
             tiramisu = Activation('softmax')(tiramisu)
 
             model = Model(inputs=input, outputs=tiramisu)
