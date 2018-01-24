@@ -168,7 +168,7 @@ class Tiramisu():
         self.model = f()
         self.model.summary()
 
-        with open('tiramisu_fc_dense103_model.json', 'w') as outfile:
+        with open('tiramisu_fc_dense_model.json', 'w') as outfile:
             outfile.write(json.dumps(json.loads(self.model.to_json()), indent=3))
 
 Tiramisu()

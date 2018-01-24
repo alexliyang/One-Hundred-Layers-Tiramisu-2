@@ -76,7 +76,7 @@ test_label = np.load('./data/test_label.npy')#[:,:,:-1]
 # test_label = to_categorical(test_label, num_classes=None)
 
 # load the model:
-with open('tiramisu_fc_dense67_model_12_func.json') as model_file:
+with open('tiramisu_fc_dense_model.json') as model_file:
     tiramisu = models.model_from_json(model_file.read())
 
 
