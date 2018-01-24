@@ -6,7 +6,7 @@ if [ ! -d "../CamVid" ]; then
   exit
 fi
 
-if [ ! -d "cudnn-9.1-linux-x64-v7.tgz" ]; then
+if [ ! -f "cudnn-9.1-linux-x64-v7.tgz" ]; then
     echo "Please put cudnn-9.1-linux-x64-v7.tgz here."
     echo "Your can download it from NVIDIA website."
     exit

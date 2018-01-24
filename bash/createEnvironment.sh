@@ -16,7 +16,6 @@ sudo apt-get install cuda
 
 export PATH=/usr/local/cuda-8.0/bin${PATH:+:${PATH}}
 export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64\${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-source ~/.bashrc
 
 # test CUDA
 cd /usr/local/cuda-9.1/samples/5_Simulations/nbody
@@ -25,8 +24,8 @@ sudo make
 
 # install cuDNN
 tar -xzvf cudnn-9.1-linux-x64-v7.tgz
-sudo cp cuda/include/cudnn.h /usr/local/cuda/include
-sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
+sudo cp -r cuda/include/cudnn.h /usr/local/cuda/include
+sudo cp -r cuda/lib64/libcudnn* /usr/local/cuda/lib64
 sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
 
 conda install tensorflow-gpu
