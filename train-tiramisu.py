@@ -44,36 +44,30 @@ np.random.seed(7) # 0bserver07 for reproducibility
 
 
 class_weighting = [
- 0.2595,
- 0.1826,
- 4.5640,
- 0.1417,
- 0.5051,
- 0.3826,
- 9.6446,
- 1.8418,
- 6.6823,
- 6.2478,
- 3.0,
- 7.3614
+  0.2595,
+  0.1826,
+  4.5640,
+  0.1417,
+  0.5051,
+  0.3826,
+  9.6446,
+  1.8418,
+  6.6823,
+  6.2478,
+  3.0,
+  7.3614
 ]
 
 
 # load the data
 train_data = np.load('./data/train_data.npy')
 train_data = train_data.reshape((367, 224, 224, 3))
-
-train_label =  np.load('./data/train_label.npy')#[:,:,:-1]
-
-
+train_label = np.load('./data/train_label.npy') # [:,:,:-1]
 
 test_data = np.load('./data/test_data.npy')
 test_data = test_data.reshape((233, 224, 224, 3))
+test_label = np.load('./data/test_label.npy') # [:,:,:-1]
 
-
-test_label = np.load('./data/test_label.npy')#[:,:,:-1]
-
-# test_label = to_categorical(test_label, num_classes=None)
 
 # load the model:
 with open('tiramisu_fc_dense_model.json') as model_file:
@@ -122,7 +116,6 @@ callbacks_list = [checkpoint]
 nb_epoch = 150
 batch_size = 2
 
-
 # Fit the model
 history = tiramisu.fit(x=train_data, y=train_label,
                        batch_size=batch_size, epochs=nb_epoch,
@@ -130,9 +123,6 @@ history = tiramisu.fit(x=train_data, y=train_label,
                        class_weight=class_weighting, 
                        verbose=1, shuffle=True,
                        validation_data=(test_data, test_label)) # validation_split=0.33
-
-
-
 
 # This save the trained model weights to this file with number of epochs
 tiramisu.save_weights('weights/prop_tiramisu_weights_67_12_func_10-e7_decay{}.hdf5'.format(nb_epoch))
