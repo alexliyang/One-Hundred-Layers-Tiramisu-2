@@ -97,3 +97,6 @@ CamVid/
 *.npy
 
 *.hdf5
+
+# big binary files
+bash/cudnn-9.1-linux-x64-v7.tgz
