@@ -30,8 +30,8 @@ class Tiramisu():
     # It defaults to the image_data_format value found in your Keras config file at ~/.keras/keras.json.
     # I recommend using default setting rather than using explicit declaration.
 
-    # axis=-1 <--> data_format='channels_first'
-    # axis=1 <-> data_format='channels_last'
+    # axis=1 <--> data_format='channels_first'
+    # axis=-1 <-> data_format='channels_last'
 
     def __init__(self, input_shape=(224, 224, 3),
                  first_conv_filters=48, growth_rate=12, pools=5, classes=12,
@@ -57,8 +57,7 @@ class Tiramisu():
     """
     def DenseBlock(self, filters):
         def helper(input):
-            output = BatchNormalization(axis=1,
-                                        gamma_regularizer=l2(0.0001),
+            output = BatchNormalization(gamma_regularizer=l2(0.0001),
                                         beta_regularizer=l2(0.0001))(input)
             output = Activation('relu')(output)
             output = Conv2D(filters, kernel_size=(3, 3), padding='same',
@@ -69,8 +68,7 @@ class Tiramisu():
 
     def TransitionDown(self, filters):
         def helper(input):
-            output = BatchNormalization(axis=1,
-                                        gamma_regularizer=l2(0.0001),
+            output = BatchNormalization(gamma_regularizer=l2(0.0001),
                                         beta_regularizer=l2(0.0001))(input)
             output = Activation('relu')(output)
             output = Conv2D(filters, kernel_size=(1, 1), padding='same',

@@ -91,7 +91,7 @@
             "config": {
                "name": "batch_normalization_1",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -243,7 +243,7 @@
             "config": {
                "name": "batch_normalization_2",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -395,7 +395,7 @@
             "config": {
                "name": "batch_normalization_3",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -547,7 +547,7 @@
             "config": {
                "name": "batch_normalization_4",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -699,7 +699,7 @@
             "config": {
                "name": "batch_normalization_5",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -875,7 +875,7 @@
             "config": {
                "name": "batch_normalization_6",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -1027,7 +1027,7 @@
             "config": {
                "name": "batch_normalization_7",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -1179,7 +1179,7 @@
             "config": {
                "name": "batch_normalization_8",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -1331,7 +1331,7 @@
             "config": {
                "name": "batch_normalization_9",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -1483,7 +1483,7 @@
             "config": {
                "name": "batch_normalization_10",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -1635,7 +1635,7 @@
             "config": {
                "name": "batch_normalization_11",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -1811,7 +1811,7 @@
             "config": {
                "name": "batch_normalization_12",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -1963,7 +1963,7 @@
             "config": {
                "name": "batch_normalization_13",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -2115,7 +2115,7 @@
             "config": {
                "name": "batch_normalization_14",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -2267,7 +2267,7 @@
             "config": {
                "name": "batch_normalization_15",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -2419,7 +2419,7 @@
             "config": {
                "name": "batch_normalization_16",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -2571,7 +2571,7 @@
             "config": {
                "name": "batch_normalization_17",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -2723,7 +2723,7 @@
             "config": {
                "name": "batch_normalization_18",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -2875,7 +2875,7 @@
             "config": {
                "name": "batch_normalization_19",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -3051,7 +3051,7 @@
             "config": {
                "name": "batch_normalization_20",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -3203,7 +3203,7 @@
             "config": {
                "name": "batch_normalization_21",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -3355,7 +3355,7 @@
             "config": {
                "name": "batch_normalization_22",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -3507,7 +3507,7 @@
             "config": {
                "name": "batch_normalization_23",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -3659,7 +3659,7 @@
             "config": {
                "name": "batch_normalization_24",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -3811,7 +3811,7 @@
             "config": {
                "name": "batch_normalization_25",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -3963,7 +3963,7 @@
             "config": {
                "name": "batch_normalization_26",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -4115,7 +4115,7 @@
             "config": {
                "name": "batch_normalization_27",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -4267,7 +4267,7 @@
             "config": {
                "name": "batch_normalization_28",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -4419,7 +4419,7 @@
             "config": {
                "name": "batch_normalization_29",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -4571,7 +4571,7 @@
             "config": {
                "name": "batch_normalization_30",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -4747,7 +4747,7 @@
             "config": {
                "name": "batch_normalization_31",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -4899,7 +4899,7 @@
             "config": {
                "name": "batch_normalization_32",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -5051,7 +5051,7 @@
             "config": {
                "name": "batch_normalization_33",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -5203,7 +5203,7 @@
             "config": {
                "name": "batch_normalization_34",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -5355,7 +5355,7 @@
             "config": {
                "name": "batch_normalization_35",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -5507,7 +5507,7 @@
             "config": {
                "name": "batch_normalization_36",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -5659,7 +5659,7 @@
             "config": {
                "name": "batch_normalization_37",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -5811,7 +5811,7 @@
             "config": {
                "name": "batch_normalization_38",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -5963,7 +5963,7 @@
             "config": {
                "name": "batch_normalization_39",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -6115,7 +6115,7 @@
             "config": {
                "name": "batch_normalization_40",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -6267,7 +6267,7 @@
             "config": {
                "name": "batch_normalization_41",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -6419,7 +6419,7 @@
             "config": {
                "name": "batch_normalization_42",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -6571,7 +6571,7 @@
             "config": {
                "name": "batch_normalization_43",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -6747,7 +6747,7 @@
             "config": {
                "name": "batch_normalization_44",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -6899,7 +6899,7 @@
             "config": {
                "name": "batch_normalization_45",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -7051,7 +7051,7 @@
             "config": {
                "name": "batch_normalization_46",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -7203,7 +7203,7 @@
             "config": {
                "name": "batch_normalization_47",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -7355,7 +7355,7 @@
             "config": {
                "name": "batch_normalization_48",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -7507,7 +7507,7 @@
             "config": {
                "name": "batch_normalization_49",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -7659,7 +7659,7 @@
             "config": {
                "name": "batch_normalization_50",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -7811,7 +7811,7 @@
             "config": {
                "name": "batch_normalization_51",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -7963,7 +7963,7 @@
             "config": {
                "name": "batch_normalization_52",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -8115,7 +8115,7 @@
             "config": {
                "name": "batch_normalization_53",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -8267,7 +8267,7 @@
             "config": {
                "name": "batch_normalization_54",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -8419,7 +8419,7 @@
             "config": {
                "name": "batch_normalization_55",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -8571,7 +8571,7 @@
             "config": {
                "name": "batch_normalization_56",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -8723,7 +8723,7 @@
             "config": {
                "name": "batch_normalization_57",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -8875,7 +8875,7 @@
             "config": {
                "name": "batch_normalization_58",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -9076,7 +9076,7 @@
             "config": {
                "name": "batch_normalization_59",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -9228,7 +9228,7 @@
             "config": {
                "name": "batch_normalization_60",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -9380,7 +9380,7 @@
             "config": {
                "name": "batch_normalization_61",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -9532,7 +9532,7 @@
             "config": {
                "name": "batch_normalization_62",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -9684,7 +9684,7 @@
             "config": {
                "name": "batch_normalization_63",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -9836,7 +9836,7 @@
             "config": {
                "name": "batch_normalization_64",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -9988,7 +9988,7 @@
             "config": {
                "name": "batch_normalization_65",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -10140,7 +10140,7 @@
             "config": {
                "name": "batch_normalization_66",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -10292,7 +10292,7 @@
             "config": {
                "name": "batch_normalization_67",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -10444,7 +10444,7 @@
             "config": {
                "name": "batch_normalization_68",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -10596,7 +10596,7 @@
             "config": {
                "name": "batch_normalization_69",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -10748,7 +10748,7 @@
             "config": {
                "name": "batch_normalization_70",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -10900,7 +10900,7 @@
             "config": {
                "name": "batch_normalization_71",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -11052,7 +11052,7 @@
             "config": {
                "name": "batch_normalization_72",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -11204,7 +11204,7 @@
             "config": {
                "name": "batch_normalization_73",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -11405,7 +11405,7 @@
             "config": {
                "name": "batch_normalization_74",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -11557,7 +11557,7 @@
             "config": {
                "name": "batch_normalization_75",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -11709,7 +11709,7 @@
             "config": {
                "name": "batch_normalization_76",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -11861,7 +11861,7 @@
             "config": {
                "name": "batch_normalization_77",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -12013,7 +12013,7 @@
             "config": {
                "name": "batch_normalization_78",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -12165,7 +12165,7 @@
             "config": {
                "name": "batch_normalization_79",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -12317,7 +12317,7 @@
             "config": {
                "name": "batch_normalization_80",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -12469,7 +12469,7 @@
             "config": {
                "name": "batch_normalization_81",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -12621,7 +12621,7 @@
             "config": {
                "name": "batch_normalization_82",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -12773,7 +12773,7 @@
             "config": {
                "name": "batch_normalization_83",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -12925,7 +12925,7 @@
             "config": {
                "name": "batch_normalization_84",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -13077,7 +13077,7 @@
             "config": {
                "name": "batch_normalization_85",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -13278,7 +13278,7 @@
             "config": {
                "name": "batch_normalization_86",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -13430,7 +13430,7 @@
             "config": {
                "name": "batch_normalization_87",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -13582,7 +13582,7 @@
             "config": {
                "name": "batch_normalization_88",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -13734,7 +13734,7 @@
             "config": {
                "name": "batch_normalization_89",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -13886,7 +13886,7 @@
             "config": {
                "name": "batch_normalization_90",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -14038,7 +14038,7 @@
             "config": {
                "name": "batch_normalization_91",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -14190,7 +14190,7 @@
             "config": {
                "name": "batch_normalization_92",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -14342,7 +14342,7 @@
             "config": {
                "name": "batch_normalization_93",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -14494,7 +14494,7 @@
             "config": {
                "name": "batch_normalization_94",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -14646,7 +14646,7 @@
             "config": {
                "name": "batch_normalization_95",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -14847,7 +14847,7 @@
             "config": {
                "name": "batch_normalization_96",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -14999,7 +14999,7 @@
             "config": {
                "name": "batch_normalization_97",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -15151,7 +15151,7 @@
             "config": {
                "name": "batch_normalization_98",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -15303,7 +15303,7 @@
             "config": {
                "name": "batch_normalization_99",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -15455,7 +15455,7 @@
             "config": {
                "name": "batch_normalization_100",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -15607,7 +15607,7 @@
             "config": {
                "name": "batch_normalization_101",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -15759,7 +15759,7 @@
             "config": {
                "name": "batch_normalization_102",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -15960,7 +15960,7 @@
             "config": {
                "name": "batch_normalization_103",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -16112,7 +16112,7 @@
             "config": {
                "name": "batch_normalization_104",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -16264,7 +16264,7 @@
             "config": {
                "name": "batch_normalization_105",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -16416,7 +16416,7 @@
             "config": {
                "name": "batch_normalization_106",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
@@ -16568,7 +16568,7 @@
             "config": {
                "name": "batch_normalization_107",
                "trainable": true,
-               "axis": 1,
+               "axis": -1,
                "momentum": 0.99,
                "epsilon": 0.001,
                "center": true,
