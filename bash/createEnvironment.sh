@@ -3,16 +3,16 @@
 source activate ImageSegmentation
 
 # update/install NVIDIA drivers
-sudo apt-get install software-properties-common
+sudo apt-get install -y software-properties-common
 sudo add-apt-repository ppa:graphics-drivers/ppa
 sudo apt-get update
-sudo apt-get install nvidia-384
+sudo apt-get install -y nvidia-384
 
 # install CUDA
 sudo dpkg -i ~/cuda-repo-ubuntu1604_9.1.85-1_amd64.deb
 sudo apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
 sudo apt-get update
-sudo apt-get install cuda
+sudo apt-get install -y cuda
 
 export PATH=/usr/local/cuda-8.0/bin${PATH:+:${PATH}}
 export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64\${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
