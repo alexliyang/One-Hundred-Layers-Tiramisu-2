@@ -1,44 +1,14 @@
-from __future__ import absolute_import
-from __future__ import print_function
-import os
-
-
-import keras.models as models
-from keras.layers.core import Layer, Dense, Dropout, Activation, Flatten, Reshape, Permute
-from keras.layers.convolutional import Conv2D, MaxPooling2D, UpSampling2D, Cropping2D
-from keras.layers.normalization import BatchNormalization
-
-from keras.layers import Conv2D, Conv2DTranspose
-
+from keras.models import model_from_json
 from keras.optimizers import RMSprop, Adam, SGD
-from keras.callbacks import ModelCheckpoint
-from keras.layers import Input, merge
-from keras.regularizers import l2
-from keras.models import Model
-from keras import regularizers
+from keras.callbacks import ModelCheckpoint, LearningRateScheduler, EarlyStopping
+from keras.backend import set_image_dim_ordering
 
-from keras.models import Model
-from keras.layers import Input, concatenate, Conv2D, MaxPooling2D, UpSampling2D
-
-from keras import backend as K
-
-from keras import callbacks
 import math
-# remote = callbacks.RemoteMonitor(root='http://localhost:9000', path='/publish/epoch/end/', field='data', headers=None)
-
-# early_stopping = callbacks.EarlyStopping(monitor='val_loss', patience=50, verbose=0, mode='auto')
-
-
-K.set_image_dim_ordering('tf')
-
-import cv2
 import numpy as np
-import json
 
 
+set_image_dim_ordering('tf')
 np.random.seed(7) # 0bserver07 for reproducibility
-
-
 
 
 class_weighting = [
@@ -69,13 +39,11 @@ test_label = np.load('./data/test_label.npy') # [:,:,:-1]
 
 # load the model:
 with open('tiramisu_fc_dense_model.json') as model_file:
-    tiramisu = models.model_from_json(model_file.read())
+    tiramisu = model_from_json(model_file.read())
 
-
-# section 4.1 from the paper
-
-from keras.callbacks import LearningRateScheduler
+# tiramisu.load_weights("weights/tiramisu_weights.best.hdf5")
  
+
 # learning rate schedule callback
 def step_decay(epoch):
     initial_lrate = 0.001
@@ -86,7 +54,14 @@ def step_decay(epoch):
 
 lrate = LearningRateScheduler(step_decay)
 
-# tiramisu.load_weights("weights/prop_tiramisu_weights_67_12_func_10-e5_decay.best.hdf5")
+# checkpoint callback
+checkpoint = ModelCheckpoint("weights/tiramisu_weights.best.hdf5", monitor='val_acc', verbose=2,
+                             save_best_only=True, save_weights_only=False, mode='max')
+
+# early stopping callback
+early_stopping = EarlyStopping(monitor='val_loss', patience=50, verbose=0, mode='auto')
+
+callbacks_list = [checkpoint, lrate, early_stopping]
 
 
 optimizer = RMSprop(lr=0.001, decay=0.0000001)
@@ -95,19 +70,9 @@ optimizer = RMSprop(lr=0.001, decay=0.0000001)
 
 tiramisu.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=["accuracy"])
 
-
-checkpoint = ModelCheckpoint("weights/tiramisu_weights.best.hdf5", monitor='val_acc', verbose=2,
-                             save_best_only=True, save_weights_only=False, mode='max')
-
-
-callbacks_list = [checkpoint, lrate]
-
-nb_epoch = 150
-batch_size = 2
-
 # Fit the model
 history = tiramisu.fit(x=train_data, y=train_label,
-                       batch_size=batch_size, epochs=nb_epoch,
+                       batch_size=2, epochs=150,
                        callbacks=callbacks_list, 
                        class_weight=class_weighting, 
                        verbose=1, shuffle=True,
