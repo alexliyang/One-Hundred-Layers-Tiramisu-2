@@ -121,8 +121,8 @@ class Tiramisu():
 
         skip_connection = []
 
-        for i in range(pools):
-            for j in range(block_layers[i]):
+        for i in range(self.pools):
+            for j in range(self.block_layers[i]):
                 l = self.DenseBlock(self.growth_rate)(tiramisu)
                 tiramisu = Concatenate()([tiramisu, l])
                 filters += self.growth_rate
@@ -141,7 +141,7 @@ class Tiramisu():
         # We will only upsample these new feature maps.
         upsample_tiramisu = []
         
-        for i in range(self.block_layers[pools]):
+        for i in range(self.block_layers[self.pools]):
             l = self.DenseBlock(self.growth_rate)(tiramisu)
             upsample_tiramisu.append(l)
             tiramisu = Concatenate()([tiramisu, l])
@@ -150,7 +150,7 @@ class Tiramisu():
         #   Upsampling path   #
         #######################
 
-        for i in range(pools):
+        for i in range(self.pools):
             tiramisu = self.TransitionUp(self.growth_rate * self.block_layers[i + self.pools])(tiramisu)
 
             upsample_tiramisu = []
