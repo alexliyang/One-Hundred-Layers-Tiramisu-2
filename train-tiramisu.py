@@ -80,11 +80,11 @@ from keras.callbacks import LearningRateScheduler
  
 # learning rate schedule
 def step_decay(epoch):
-	initial_lrate = 0.001
-	drop = 0.00001
-	epochs_drop = 10.0
-	lrate = initial_lrate * math.pow(drop, math.floor((1+epoch)/epochs_drop))
-	return lrate
+    initial_lrate = 0.001
+    drop = 0.00001
+    epochs_drop = 10.0
+    lrate = initial_lrate * math.pow(drop, math.floor((1 + epoch) / epochs_drop))
+    return lrate
 
 lrate = LearningRateScheduler(step_decay)
 
@@ -108,7 +108,7 @@ TensorBoard = callbacks.TensorBoard(log_dir='./logs', histogram_freq=5, write_gr
 
 filepath="weights/prop_tiramisu_weights_67_12_func_10-e7_decay.best.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=2,
-									 save_best_only=True, save_weights_only=False, mode='max')
+                             save_best_only=True, save_weights_only=False, mode='max')
 
 
 callbacks_list = [checkpoint]
