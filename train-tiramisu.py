@@ -61,7 +61,7 @@ checkpoint = ModelCheckpoint("weights/tiramisu_weights.best.hdf5", monitor='val_
 # early stopping callback
 early_stopping = EarlyStopping(monitor='val_loss', patience=50, verbose=0, mode='auto')
 
-callbacks_list = [checkpoint, lrate, early_stopping]
+callbacks_list = [lrate, early_stopping]
 
 
 optimizer = RMSprop(lr=0.001, decay=0.0000001)
