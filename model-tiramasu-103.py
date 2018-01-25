@@ -3,35 +3,36 @@ from __future__ import print_function
 import os
 
 
-import keras.models as models
-from keras.layers.core import Layer, Dense, Dropout, Activation, Flatten, Reshape, Permute
-from keras.layers.convolutional import Conv2D, MaxPooling2D, UpSampling2D, Cropping2D
+from keras.layers.core import Dropout, Activation, Reshape
+from keras.layers.convolutional import MaxPooling2D
 from keras.layers.normalization import BatchNormalization
 
 from keras.layers import Conv2D, Conv2DTranspose, Input, Concatenate
 from keras.models import Model
 
-from keras import backend as K
+from keras.backend import set_image_data_format, set_image_dim_ordering
 
 import cv2
 import numpy as np
 import json
 
-K.set_image_dim_ordering('tf')
+"""
+data_format: A string, one of channels_last (default) or channels_first.
+channels_last corresponds to inputs with shape (batch, height, width, channels).
+channels_first corresponds to inputs with shape (batch, channels, height, width).
+It defaults to the image_data_format value found in your Keras config file at ~/.keras/keras.json.
+I recommend using default setting rather than using explicit declaration.
+
+axis=1 <--> data_format='channels_first'
+axis=-1 <-> data_format='channels_last'
+"""
+set_image_data_format('channels_last')
+set_image_dim_ordering('tf')
 
 # weight_decay = 0.0001
 from keras.regularizers import l2
  
 class Tiramisu():
-
-    # data_format: A string, one of channels_last (default) or channels_first.
-    # channels_last corresponds to inputs with shape (batch, height, width, channels).
-    # channels_first corresponds to inputs with shape (batch, channels, height, width).
-    # It defaults to the image_data_format value found in your Keras config file at ~/.keras/keras.json.
-    # I recommend using default setting rather than using explicit declaration.
-
-    # axis=1 <--> data_format='channels_first'
-    # axis=-1 <-> data_format='channels_last'
 
     def __init__(self, input_shape=(224, 224, 3),
                  first_conv_filters=48, growth_rate=12, pools=5, classes=12,
