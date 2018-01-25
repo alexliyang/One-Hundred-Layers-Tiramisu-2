@@ -43,6 +43,9 @@ class Tiramisu():
         self.block_layers = block_layers
         self.classes = classes
 
+        self.kernel_initializer = kernel_initializer='he_uniform'
+        self.kernel_regularizer = kernel_regularizer=l2(0.0001)
+
         self.create()
 
     """
@@ -61,7 +64,7 @@ class Tiramisu():
                                         beta_regularizer=l2(0.0001))(input)
             output = Activation('relu')(output)
             output = Conv2D(filters, kernel_size=(3, 3), padding='same',
-                                     kernel_initializer="he_uniform")(output)
+                                     kernel_initializer=self.kernel_initializer)(output)
             return output
 
         return helper
@@ -72,7 +75,7 @@ class Tiramisu():
                                         beta_regularizer=l2(0.0001))(input)
             output = Activation('relu')(output)
             output = Conv2D(filters, kernel_size=(1, 1), padding='same',
-                                     kernel_initializer="he_uniform")(output)
+                                     kernel_initializer=self.kernel_initializer)(output)
             output = Dropout(0.2)(output)
             output = MaxPooling2D(pool_size=(2, 2),
                                   strides=(2, 2))(output)
@@ -84,7 +87,7 @@ class Tiramisu():
         def helper(input):
             output = Conv2DTranspose(filters,  kernel_size=(3, 3),
                                      strides=(2, 2), padding='same',
-                                     kernel_initializer="he_uniform")(input)
+                                     kernel_initializer=self.kernel_initializer)(input)
             return output
 
         return helper
@@ -101,8 +104,8 @@ class Tiramisu():
         # first_conv_filters is 48 in the one hundred layers tiramisu.
         tiramisu = Conv2D(self.first_conv_filters, kernel_size=(3, 3), padding='same', 
                           input_shape=self.input_shape,
-                          kernel_initializer="he_uniform",
-                          kernel_regularizer=l2(0.0001))(input)
+                          kernel_initializer=self.kernel_initializer,
+                          kernel_regularizer=self.kernel_regularizer)(input)
 
         #####################
         # Downsampling path #
@@ -152,8 +155,8 @@ class Tiramisu():
                 tiramisu = Concatenate()([tiramisu, l])
 
         tiramisu = Conv2D(self.classes, kernel_size=(1, 1), padding='same',
-                          kernel_initializer='he_uniform',
-                          kernel_regularizer=l2(0.0001))(tiramisu)
+                          kernel_initializer=self.kernel_initializer,
+                          kernel_regularizer=self.kernel_regularizer)(tiramisu)
         tiramisu = Reshape((self.input_shape[0] * self.input_shape[1], self.classes))(tiramisu)
         tiramisu = Activation('softmax')(tiramisu)
 
