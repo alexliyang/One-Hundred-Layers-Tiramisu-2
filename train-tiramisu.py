@@ -28,8 +28,6 @@ import math
 
 # early_stopping = callbacks.EarlyStopping(monitor='val_loss', patience=50, verbose=0, mode='auto')
 
-# tensor_board = callbacks.TensorBoard(log_dir='./logs', histogram_freq=5, write_graph=True, write_images=True)
-
 
 K.set_image_dim_ordering('tf')
 
@@ -78,7 +76,7 @@ with open('tiramisu_fc_dense_model.json') as model_file:
 
 from keras.callbacks import LearningRateScheduler
  
-# learning rate schedule
+# learning rate schedule callback
 def step_decay(epoch):
     initial_lrate = 0.001
     drop = 0.00001
@@ -91,27 +89,18 @@ lrate = LearningRateScheduler(step_decay)
 # tiramisu.load_weights("weights/prop_tiramisu_weights_67_12_func_10-e5_decay.best.hdf5")
 
 
-
-
 optimizer = RMSprop(lr=0.001, decay=0.0000001)
 # optimizer = SGD(lr=0.01)
 # optimizer = Adam(lr=1e-3, decay=0.995)
 
 tiramisu.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=["accuracy"])
 
-# learning schedule callback
-# lrate = LearningRateScheduler(step_decay)
 
-# checkpoint 278
-TensorBoard = callbacks.TensorBoard(log_dir='./logs', histogram_freq=5, write_graph=True, write_images=True)
-# ReduceLROnPlateau = callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=10, verbose=0, mode='auto', epsilon=0.0001, cooldown=0, min_lr=0)
-
-filepath="weights/prop_tiramisu_weights_67_12_func_10-e7_decay.best.hdf5"
-checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=2,
+checkpoint = ModelCheckpoint("weights/tiramisu_weights.best.hdf5", monitor='val_acc', verbose=2,
                              save_best_only=True, save_weights_only=False, mode='max')
 
 
-callbacks_list = [checkpoint]
+callbacks_list = [checkpoint, lrate]
 
 nb_epoch = 150
 batch_size = 2
@@ -122,10 +111,10 @@ history = tiramisu.fit(x=train_data, y=train_label,
                        callbacks=callbacks_list, 
                        class_weight=class_weighting, 
                        verbose=1, shuffle=True,
-                       validation_data=(test_data, test_label)) # validation_split=0.33
+                       validation_data=(test_data, test_label))
 
 # This save the trained model weights to this file with number of epochs
-tiramisu.save_weights('weights/prop_tiramisu_weights_67_12_func_10-e7_decay{}.hdf5'.format(nb_epoch))
+tiramisu.save_weights('weights/tiramisu_weights{}.hdf5'.format(nb_epoch))
 
 import matplotlib.pyplot as plt
 # list all data in history
