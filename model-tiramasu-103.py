@@ -1,19 +1,10 @@
-from __future__ import absolute_import
-from __future__ import print_function
-import os
-
-
+from keras.backend import set_image_data_format, set_image_dim_ordering
+from keras.layers import Conv2D, Conv2DTranspose, Input, Concatenate
 from keras.layers.core import Dropout, Activation, Reshape
 from keras.layers.convolutional import MaxPooling2D
 from keras.layers.normalization import BatchNormalization
-
-from keras.layers import Conv2D, Conv2DTranspose, Input, Concatenate
 from keras.models import Model
 
-from keras.backend import set_image_data_format, set_image_dim_ordering
-
-import cv2
-import numpy as np
 import json
 
 """
