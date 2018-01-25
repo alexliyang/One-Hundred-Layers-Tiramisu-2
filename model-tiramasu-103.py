@@ -36,6 +36,7 @@ class Tiramisu():
     def __init__(self, input_shape=(224, 224, 3),
                  first_conv_filters=48, growth_rate=12, pools=5, classes=12,
                  block_layers=[4, 5, 7, 10, 12, 15, 12, 10, 7, 5, 4]):
+
         if type(block_layers) == list:
             assert(len(block_layers) == 2 * pools + 1)
         elif type(block_layers) == int:
@@ -43,7 +44,14 @@ class Tiramisu():
         else:
             raise ValueError
 
-        self.create(first_conv_filters, input_shape, pools, block_layers, growth_rate, classes)
+        self.input_shape = input_shape
+        self.first_conv_filters = first_conv_filters
+        self.growth_rate = growth_rate
+        self.pools = pools
+        self.block_layers = block_layers
+        self.classes = classes
+
+        self.create()
 
     """
     keras v1 (https://faroit.github.io/keras-docs/1.2.2/layers/normalization/)
@@ -80,92 +88,86 @@ class Tiramisu():
 
         return helper
 
-    def TransitionUp(self, filters, input_shape = None):
+    def TransitionUp(self, filters):
         def helper(input):
-            output = Conv2DTranspose(filters,  kernel_size=(3, 3), strides=(2, 2),
-                                               padding='same',
-                                               # input_shape=input_shape,
-                                               kernel_initializer="he_uniform")(input)
+            output = Conv2DTranspose(filters,  kernel_size=(3, 3),
+                                     strides=(2, 2), padding='same',
+                                     kernel_initializer="he_uniform")(input)
             return output
 
         return helper
 
 
-    def create(self, first_conv_filters, input_shape, pools, block_layers, growth_rate, classes):
-        def f():
-            input = Input(shape=input_shape)
+    def create(self):
+        input = Input(shape=self.input_shape)
 
-            #####################
-            # First Convolution #
-            #####################
+        #####################
+        # First Convolution #
+        #####################
 
-            # We perform a first convolution. All the features maps will be stored in the Tiramisu.
-            # first_conv_filters is 48 in the one hundred layers tiramisu.
-            tiramisu = Conv2D(first_conv_filters, kernel_size=(3, 3), padding='same', 
-                              input_shape=input_shape,
-                              kernel_initializer="he_uniform",
-                              kernel_regularizer = l2(0.0001))(input)
+        # We perform a first convolution. All the features maps will be stored in the Tiramisu.
+        # first_conv_filters is 48 in the one hundred layers tiramisu.
+        tiramisu = Conv2D(self.first_conv_filters, kernel_size=(3, 3), padding='same', 
+                          input_shape=self.input_shape,
+                          kernel_initializer="he_uniform",
+                          kernel_regularizer=l2(0.0001))(input)
 
-            #####################
-            # Downsampling path #
-            #####################
+        #####################
+        # Downsampling path #
+        #####################
 
-            # The number of feature maps in the tiramisu is stored in the variable filters
-            filters = first_conv_filters
+        # The number of feature maps in the tiramisu is stored in the variable filters
+        filters = self.first_conv_filters
 
-            skip_connection = []
+        skip_connection = []
 
-            for i in range(pools):
-                for j in range(block_layers[i]):
-                    l = self.DenseBlock(growth_rate)(tiramisu)
-                    tiramisu = Concatenate()([tiramisu, l])
-                    filters += growth_rate
-                skip_connection.append(tiramisu)
-                # You can't connect the new tiramisu and the old tiramisu, because their size are different.
-                tiramisu = self.TransitionDown(filters)(tiramisu)
+        for i in range(pools):
+            for j in range(block_layers[i]):
+                l = self.DenseBlock(self.growth_rate)(tiramisu)
+                tiramisu = Concatenate()([tiramisu, l])
+                filters += self.growth_rate
+            skip_connection.append(tiramisu)
+            # You can't connect the new tiramisu and the old tiramisu, because their size are different.
+            tiramisu = self.TransitionDown(filters)(tiramisu)
 
-            # reverse skip_connection
-            skip_connection = skip_connection[::-1]
+        # reverse skip_connection
+        skip_connection = skip_connection[::-1]
 
-            #####################
-            #     Bottleneck    #
-            #####################
+        #####################
+        #     Bottleneck    #
+        #####################
 
-            # We store now the output of the next dense block in a list.
-            # We will only upsample these new feature maps.
+        # We store now the output of the next dense block in a list.
+        # We will only upsample these new feature maps.
+        upsample_tiramisu = []
+        
+        for i in range(self.block_layers[pools]):
+            l = self.DenseBlock(self.growth_rate)(tiramisu)
+            upsample_tiramisu.append(l)
+            tiramisu = Concatenate()([tiramisu, l])
+
+        #######################
+        #   Upsampling path   #
+        #######################
+
+        for i in range(pools):
+            tiramisu = self.TransitionUp(self.growth_rate * self.block_layers[i + self.pools])(tiramisu)
+
             upsample_tiramisu = []
-            
-            for i in range(block_layers[pools]):
-                l = self.DenseBlock(growth_rate)(tiramisu)
+            for j in range(self.block_layers[i + self.pools]):
+                l = self.DenseBlock(self.growth_rate)(tiramisu)
                 upsample_tiramisu.append(l)
                 tiramisu = Concatenate()([tiramisu, l])
 
-            #######################
-            #   Upsampling path   #
-            #######################
+        tiramisu = Conv2D(self.classes, kernel_size=(1, 1), padding='same',
+                          kernel_initializer='he_uniform',
+                          kernel_regularizer=l2(0.0001))(tiramisu)
+        tiramisu = Reshape((self.input_shape[0] * self.input_shape[1], self.classes))(tiramisu)
+        tiramisu = Activation('softmax')(tiramisu)
 
-            for i in range(pools):
-                tiramisu = self.TransitionUp(growth_rate * block_layers[i + pools])(tiramisu)
+        self.model = Model(inputs=input, outputs=tiramisu)
 
-                upsample_tiramisu = []
-                for j in range(block_layers[i + pools]):
-                    l = self.DenseBlock(growth_rate)(tiramisu)
-                    upsample_tiramisu.append(l)
-                    tiramisu = Concatenate()([tiramisu, l])
-
-            tiramisu = Conv2D(classes, kernel_size=(1, 1),
-                                  padding='same',
-                                  kernel_initializer='he_uniform',
-                                  kernel_regularizer=l2(0.0001))(tiramisu)
-            tiramisu = Reshape((input_shape[0] * input_shape[1], classes))(tiramisu)
-            tiramisu = Activation('softmax')(tiramisu)
-
-            model = Model(inputs=input, outputs=tiramisu)
-            return model
-
-        self.model = f()
         self.model.summary()
-
         with open('tiramisu_fc_dense_model.json', 'w') as outfile:
             outfile.write(json.dumps(json.loads(self.model.to_json()), indent=3))
 
