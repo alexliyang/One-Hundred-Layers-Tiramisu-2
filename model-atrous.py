@@ -55,8 +55,10 @@ class Tiramisu():
         self.create()
 
     def DenseBlock(self, filters):
-        def get_p_survival(survival_end=0.5, mode='linear_decay'):
+        def get_survival(survival_end=0.5, mode='linear_decay'):
             self.denseblock += 1
+            if self.denseblock == 1:
+                return 1
 
             if mode == 'uniform':
                 return survival_end
@@ -65,9 +67,9 @@ class Tiramisu():
             else:
                 raise
 
-        def stochastic_survival(input, p_survival=1.0):
-            survival = K.random_binomial((1,), p=p_survival)
-            return K.in_test_phase(K.variable(p_survival, dtype='float32') * input, survival * input)
+        def stochastic_survival(input, survival=1.0):
+            survival = K.random_binomial((1,), p=survival)
+            return K.in_test_phase(K.variable(survival, dtype='float32') * input, survival * input)
 
         def helper(input):
             output = BatchNormalization(gamma_regularizer=self.regularizer,
@@ -75,8 +77,8 @@ class Tiramisu():
             output = Activation('relu')(output)
             output = Conv2D(filters, kernel_size=(3, 3), padding='same',
                             kernel_initializer=self.kernel_initializer)(output)
-            p_survival = get_p_survival()
-            output = Lambda(stochastic_survival, arguments={'p_survival': p_survival})(output)
+            survival = get_survival()
+            output = Lambda(stochastic_survival, arguments={'survival': survival})(output)
             return output
 
         return helper
