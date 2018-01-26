@@ -5,7 +5,8 @@ from keras.backend import set_image_dim_ordering
 
 import math
 import numpy as np
-
+import tensorflow as tf
+import keras.backend as K
 
 set_image_dim_ordering('tf')
 np.random.seed(7) # 0bserver07 for reproducibility
@@ -68,7 +69,14 @@ optimizer = RMSprop(lr=0.001, decay=0.0000001)
 # optimizer = SGD(lr=0.01)
 # optimizer = Adam(lr=1e-3, decay=0.995)
 
-tiramisu.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=["accuracy"])
+def mean_iou(y_true, y_pred):
+    score, up_opt = tf.metrics.mean_iou(y_true, y_pred, 12)
+    K.get_session().run(tf.local_variables_initializer())
+    with tf.control_dependencies([up_opt]):
+        score = tf.identity(score)
+    return score
+
+tiramisu.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=["accuracy", mean_iou])
 
 # Fit the model
 history = tiramisu.fit(x=train_data, y=train_label,
