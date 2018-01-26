@@ -64,9 +64,9 @@ class Tiramisu():
             else:
                 raise
 
-        def stochastic_survival(y, p_survival=1.0):
+        def stochastic_survival(input, p_survival=1.0):
             survival = K.random_binomial((1,), p=p_survival)
-            return K.in_test_phase(K.variable(p_survival, dtype='float32') * y, survival * y)
+            return K.in_test_phase(K.variable(p_survival, dtype='float32') * input, survival * input)
 
         def helper(input):
             output = BatchNormalization(gamma_regularizer=l2(0.0001),
