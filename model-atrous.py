@@ -8,7 +8,6 @@ from keras.layers.normalization import BatchNormalization
 from keras.models import Model
 
 import json
-import tensorflow as tf
 
 """
 data_format: A string, one of channels_last (default) or channels_first.
@@ -67,7 +66,7 @@ class Tiramisu():
 
         def stochastic_survival(y, p_survival=1.0):
             survival = K.random_binomial((1,), p=p_survival)
-            return K.in_test_phase(tf.constant(p_survival, dtype='float32') * y, survival * y)
+            return K.in_test_phase(K.variable(p_survival, dtype='float32') * y, survival * y)
 
         def helper(input):
             output = BatchNormalization(gamma_regularizer=l2(0.0001),
@@ -133,8 +132,7 @@ class Tiramisu():
 
         self.model.summary()
 
-        # with open('tiramisu_fc_dense_model.json', 'w') as outfile:
-        #     outfile.write(json.dumps(json.loads(self.model.to_json()), indent=3))
-        self.model.save('tiramisu_fc_dense_model.json')
+        with open('tiramisu_fc_dense_model.json', 'w') as outfile:
+            outfile.write(json.dumps(json.loads(self.model.to_json()), indent=3))
 
 Tiramisu()
