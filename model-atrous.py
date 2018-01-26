@@ -2,7 +2,7 @@ from keras.backend import set_image_data_format, set_image_dim_ordering
 import keras.backend as K
 
 from keras.layers import Conv2D, Input, Lambda, Concatenate
-from keras.layers.core import Dropout, Activation, Reshape
+from keras.layers.core import Activation, Reshape
 from keras.layers.convolutional import MaxPooling2D
 from keras.layers.normalization import BatchNormalization
 from keras.models import Model
@@ -100,7 +100,6 @@ class Tiramisu():
             output = Conv2D(filters, kernel_size=(3, 3), padding='same',
                             dilation_rate=(2,2),
                             kernel_regularizer=self.kernel_regularizer)(output)
-            output = Dropout(0.2)(output)
             return output
 
         return helper
