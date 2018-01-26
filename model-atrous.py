@@ -28,7 +28,7 @@ from keras.regularizers import l2
 class Tiramisu():
 
     def __init__(self, input_shape=(224, 224, 3), classes=12,
-                 first_conv_filters=48, growth_rate=2, pools=5,
+                 first_conv_filters=48, growth_rate=12, pools=5,
                  block_layers=[4, 5, 7, 10, 12]):
 
         if type(block_layers) == list:
