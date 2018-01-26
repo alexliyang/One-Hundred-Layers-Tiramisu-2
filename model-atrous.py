@@ -28,7 +28,7 @@ from keras.regularizers import l2
 class Tiramisu():
 
     def __init__(self, input_shape=(224, 224, 3), classes=12,
-                 first_conv_filters=48, growth_rate=12, pools=5,
+                 first_conv_filters=48, growth_rate=16, pools=5,
                  block_layers=[4, 5, 7, 10, 12]):
 
         if type(block_layers) == list:
@@ -117,10 +117,15 @@ class Tiramisu():
             for j in range(self.block_layers[i]):
                 l = self.DenseBlock(self.growth_rate)(tiramisu)
                 tiramisu = Concatenate()([tiramisu, l])
-            new_tiramisu = self.AtrousBlock(self.growth_rate)(tiramisu)
-            old_tiramisu = self.Bottleneck(self.growth_rate)(tiramisu)
+            # 1.
+            # new_tiramisu = self.AtrousBlock(self.growth_rate)(tiramisu)
+            # old_tiramisu = self.Bottleneck(self.growth_rate)(tiramisu)
+            # tiramisu = Concatenate()([old_tiramisu, new_tiramisu])
+            # 2.
             # tiramisu = Concatenate()([tiramisu, self.AtrousBlock(self.growth_rate)(tiramisu)])
-            tiramisu = Concatenate()([old_tiramisu, new_tiramisu])
+            # 3.
+            tiramisu = self.Bottleneck(self.growth_rate)(tiramisu)
+            tiramisu = Concatenate()([tiramisu, self.AtrousBlock(self.growth_rate)(tiramisu)])
 
         tiramisu = Conv2D(self.classes, kernel_size=(1, 1), padding='same',
                           kernel_initializer=self.kernel_initializer,
