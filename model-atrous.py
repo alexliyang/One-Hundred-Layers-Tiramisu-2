@@ -54,7 +54,18 @@ class Tiramisu():
                                         beta_regularizer=l2(0.0001))(input)
             output = Activation('relu')(output)
             output = Conv2D(filters, kernel_size=(3, 3), padding='same',
-                                     kernel_initializer=self.kernel_initializer)(output)
+                            kernel_initializer=self.kernel_initializer)(output)
+            return output
+
+        return helper
+
+    def Bottleneck(self, filters):
+        def helper(input):
+            output = BatchNormalization(gamma_regularizer=l2(0.0001),
+                                        beta_regularizer=l2(0.0001))(input)
+            output = Activation('relu')(output)
+            output = Conv2D(filters, kernel_size=(1, 1),
+                            kernel_initializer=self.kernel_initializer)(output)
             return output
 
         return helper
@@ -86,7 +97,10 @@ class Tiramisu():
             for j in range(self.block_layers[i]):
                 l = self.DenseBlock(self.growth_rate)(tiramisu)
                 tiramisu = Concatenate()([tiramisu, l])
-            tiramisu = Concatenate()([tiramisu, self.AtrousBlock(self.growth_rate)(tiramisu)])
+            new_tiramisu = self.AtrousBlock(self.growth_rate)(tiramisu)
+            old_tiramisu = self.Bottleneck(self.growth_rate)(tiramisu)
+            # tiramisu = Concatenate()([tiramisu, self.AtrousBlock(self.growth_rate)(tiramisu)])
+            tiramisu = Concatenate()([old_tiramisu, new_tiramisu])
 
         tiramisu = Conv2D(self.classes, kernel_size=(1, 1), padding='same',
                           kernel_initializer=self.kernel_initializer,
