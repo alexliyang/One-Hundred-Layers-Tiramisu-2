@@ -48,8 +48,9 @@ class Tiramisu():
         self.denseblock = 0
         self.denseblocks = sum(block_layers)
 
-        self.kernel_initializer = kernel_initializer='he_uniform'
-        self.kernel_regularizer = kernel_regularizer=l2(0.0001)
+        self.kernel_initializer = 'he_uniform'
+        # self.regularizer = l2(0.0001)
+        self.regularizer = None
 
         self.create()
 
@@ -69,8 +70,8 @@ class Tiramisu():
             return K.in_test_phase(K.variable(p_survival, dtype='float32') * input, survival * input)
 
         def helper(input):
-            output = BatchNormalization(gamma_regularizer=l2(0.0001),
-                                        beta_regularizer=l2(0.0001))(input)
+            output = BatchNormalization(gamma_regularizer=self.regularizer,
+                                        beta_regularizer=self.regularizer)(input)
             output = Activation('relu')(output)
             output = Conv2D(filters, kernel_size=(3, 3), padding='same',
                             kernel_initializer=self.kernel_initializer)(output)
@@ -82,8 +83,8 @@ class Tiramisu():
 
     def Bottleneck(self, filters):
         def helper(input):
-            output = BatchNormalization(gamma_regularizer=l2(0.0001),
-                                        beta_regularizer=l2(0.0001))(input)
+            output = BatchNormalization(gamma_regularizer=self.regularizer,
+                                        beta_regularizer=self.regularizer)(input)
             output = Activation('relu')(output)
             output = Conv2D(filters, kernel_size=(1, 1),
                             kernel_initializer=self.kernel_initializer)(output)
@@ -93,12 +94,12 @@ class Tiramisu():
 
     def AtrousBlock(self, filters):
         def helper(input):
-            output = BatchNormalization(gamma_regularizer=l2(0.0001),
-                                        beta_regularizer=l2(0.0001))(input)
+            output = BatchNormalization(gamma_regularizer=self.regularizer,
+                                        beta_regularizer=self.regularizer)(input)
             output = Activation('relu')(output)
             output = Conv2D(filters, kernel_size=(3, 3), padding='same',
                             dilation_rate=(2,2),
-                            kernel_regularizer=self.kernel_regularizer)(output)
+                            kernel_regularizer=self.regularizer)(output)
             return output
 
         return helper
@@ -111,7 +112,7 @@ class Tiramisu():
         tiramisu = Conv2D(self.first_conv_filters, kernel_size=(3, 3), padding='same', 
                           input_shape=self.input_shape,
                           kernel_initializer=self.kernel_initializer,
-                          kernel_regularizer=self.kernel_regularizer)(input)
+                          kernel_regularizer=self.regularizer)(input)
 
         for i in range(self.pools):
             for j in range(self.block_layers[i]):
@@ -129,7 +130,7 @@ class Tiramisu():
 
         tiramisu = Conv2D(self.classes, kernel_size=(1, 1), padding='same',
                           kernel_initializer=self.kernel_initializer,
-                          kernel_regularizer=self.kernel_regularizer)(tiramisu)
+                          kernel_regularizer=self.regularizer)(tiramisu)
         tiramisu = Reshape((self.input_shape[0] * self.input_shape[1], self.classes))(tiramisu)
         tiramisu = Activation('softmax')(tiramisu)
 
