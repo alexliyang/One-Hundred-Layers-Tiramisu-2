@@ -1,11 +1,14 @@
 from keras.backend import set_image_data_format, set_image_dim_ordering
-from keras.layers import Conv2D, Conv2DTranspose, Input, Concatenate, AtrousConvolution2D
+import keras.backend as K
+
+from keras.layers import Conv2D, Input, Lambda, Concatenate
 from keras.layers.core import Dropout, Activation, Reshape
 from keras.layers.convolutional import MaxPooling2D
 from keras.layers.normalization import BatchNormalization
 from keras.models import Model
 
 import json
+import tensorflow as tf
 
 """
 data_format: A string, one of channels_last (default) or channels_first.
@@ -43,18 +46,37 @@ class Tiramisu():
         self.block_layers = block_layers
         self.classes = classes
 
+        self.denseblock = 0
+        self.denseblocks = sum(block_layers)
+
         self.kernel_initializer = kernel_initializer='he_uniform'
         self.kernel_regularizer = kernel_regularizer=l2(0.0001)
 
         self.create()
 
     def DenseBlock(self, filters):
+        def get_p_survival(survival_end=0.5, mode='linear_decay'):
+            self.denseblock += 1
+
+            if mode == 'uniform':
+                return survival_end
+            elif mode == 'linear_decay':
+                return 1 - (self.denseblock / self.denseblocks) * (1 - survival_end)
+            else:
+                raise
+
+        def stochastic_survival(y, p_survival=1.0):
+            survival = K.random_binomial((1,), p=p_survival)
+            return K.in_test_phase(tf.constant(p_survival, dtype='float32') * y, survival * y)
+
         def helper(input):
             output = BatchNormalization(gamma_regularizer=l2(0.0001),
                                         beta_regularizer=l2(0.0001))(input)
             output = Activation('relu')(output)
             output = Conv2D(filters, kernel_size=(3, 3), padding='same',
                             kernel_initializer=self.kernel_initializer)(output)
+            p_survival = get_p_survival()
+            output = Lambda(stochastic_survival, arguments={'p_survival': p_survival})(output)
             return output
 
         return helper
@@ -75,9 +97,9 @@ class Tiramisu():
             output = BatchNormalization(gamma_regularizer=l2(0.0001),
                                         beta_regularizer=l2(0.0001))(input)
             output = Activation('relu')(output)
-            output = AtrousConvolution2D(filters, nb_row=3, nb_col=3,
-                                         atrous_rate=(2,2), border_mode='same',
-                                         W_regularizer=l2(0.0001), b_regularizer=l2(0.0001))(output)
+            output = Conv2D(filters, kernel_size=(3, 3), padding='same',
+                            dilation_rate=(2,2),
+                            kernel_regularizer=self.kernel_regularizer)(output)
             output = Dropout(0.2)(output)
             return output
 
@@ -111,7 +133,9 @@ class Tiramisu():
         self.model = Model(inputs=input, outputs=tiramisu)
 
         self.model.summary()
-        with open('tiramisu_fc_dense_model.json', 'w') as outfile:
-            outfile.write(json.dumps(json.loads(self.model.to_json()), indent=3))
+
+        # with open('tiramisu_fc_dense_model.json', 'w') as outfile:
+        #     outfile.write(json.dumps(json.loads(self.model.to_json()), indent=3))
+        self.model.save('tiramisu_fc_dense_model.json')
 
 Tiramisu()
