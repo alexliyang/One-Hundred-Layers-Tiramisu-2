@@ -1,6 +1,6 @@
 from keras.models import model_from_json
 from keras.optimizers import RMSprop, Adam, SGD
-from keras.callbacks import ModelCheckpoint, LearningRateScheduler, EarlyStopping
+from keras.callbacks import ModelCheckpoint, LearningRateScheduler, EarlyStopping, Callback
 from keras.backend import set_image_dim_ordering
 
 import math
@@ -43,8 +43,6 @@ with open('tiramisu_fc_dense_model.json') as model_file:
     tiramisu = model_from_json(model_file.read())
 
 # tiramisu.load_weights("weights/tiramisu_weights.best.hdf5")
-
-from keras.callbacks import *
 
 class CyclicLR(Callback):
     """This callback implements a cyclical learning rate policy (CLR).
@@ -129,8 +127,7 @@ class CyclicLR(Callback):
 
         self._reset()
 
-    def _reset(self, new_base_lr=None, new_max_lr=None,
-               new_step_size=None):
+    def _reset(self, new_base_lr=None, new_max_lr=None, new_step_size=None):
         # Resets cycle iterations.
         # Optional boundary/step size adjustment.
         if new_base_lr != None:
