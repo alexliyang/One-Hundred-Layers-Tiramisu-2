@@ -49,8 +49,8 @@ class Tiramisu():
         self.denseblocks = sum(block_layers)
 
         self.kernel_initializer = 'he_uniform'
-        # self.regularizer = l2(0.0001)
-        self.regularizer = None
+        self.regularizer = l2(0.0001)
+        # self.regularizer = None
 
         self.create()
 
