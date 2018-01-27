@@ -116,6 +116,8 @@ class Tiramisu():
                           kernel_initializer=self.kernel_initializer,
                           kernel_regularizer=self.regularizer)(input)
 
+        skip_connections = []
+
         for i in range(self.pools):
             for j in range(self.block_layers[i]):
                 l = self.DenseBlock(self.growth_rate)(tiramisu)
@@ -127,8 +129,15 @@ class Tiramisu():
             # 2.
             # tiramisu = Concatenate()([tiramisu, self.AtrousBlock(self.growth_rate)(tiramisu)])
             # 3.
+            # tiramisu = self.Bottleneck(self.growth_rate)(tiramisu)
+            # tiramisu = Concatenate()([tiramisu, self.AtrousBlock(self.growth_rate)(tiramisu)])
+            # 4.
             tiramisu = self.Bottleneck(self.growth_rate)(tiramisu)
-            tiramisu = Concatenate()([tiramisu, self.AtrousBlock(self.growth_rate)(tiramisu)])
+            skip_connections.append(tiramisu)
+            tiramisu = self.AtrousBlock(self.growth_rate)(tiramisu)
+
+        skip_connections = Concatenate()(skip_connections)
+        tiramisu = Concatenate()([skip_connections, tiramisu])
 
         tiramisu = Conv2D(self.classes, kernel_size=(1, 1), padding='same',
                           kernel_initializer=self.kernel_initializer,
