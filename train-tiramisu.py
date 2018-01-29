@@ -204,7 +204,7 @@ tiramisu.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=[
 
 # Fit the model
 history = tiramisu.fit(x=train_data, y=train_label,
-                       batch_size=10, epochs=150,
+                       batch_size=2, epochs=150,
                        callbacks=callbacks_list, 
                        class_weight=class_weighting, 
                        verbose=1, shuffle=True,

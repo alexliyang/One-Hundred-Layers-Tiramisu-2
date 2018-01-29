@@ -152,4 +152,4 @@ class Tiramisu():
         with open('tiramisu_fc_dense_model.json', 'w') as outfile:
             outfile.write(json.dumps(json.loads(self.model.to_json()), indent=3))
 
-Tiramisu(pools=6, block_layers=[6, 7, 9, 12, 14, 16])
+Tiramisu()
