@@ -45,8 +45,8 @@ class Tiramisu():
         self.block_layers = block_layers
         self.classes = classes
 
-        self.denseblock = 0
-        self.denseblocks = sum(block_layers)
+        self.layer = 0
+        self.layers = sum(block_layers)
 
         self.kernel_initializer = 'he_uniform'
         self.regularizer = l2(0.0001)
@@ -54,16 +54,16 @@ class Tiramisu():
 
         self.create()
 
-    def DenseBlock(self, filters):
+    def Layer(self, filters):
         def get_survival(survival_end=0.5, mode='linear_decay'):
-            self.denseblock += 1
-            if self.denseblock == 1:
+            self.layer += 1
+            if self.layer == 1:
                 return 1
 
             if mode == 'uniform':
                 return survival_end
             elif mode == 'linear_decay':
-                return 1 - (self.denseblock / self.denseblocks) * (1 - survival_end)
+                return 1 - (self.layer / self.layers) * (1 - survival_end)
             else:
                 raise
 
@@ -120,7 +120,7 @@ class Tiramisu():
 
         for i in range(self.pools):
             for j in range(self.block_layers[i]):
-                l = self.DenseBlock(self.growth_rate)(tiramisu)
+                l = self.Layer(self.growth_rate)(tiramisu)
                 tiramisu = Concatenate()([tiramisu, l])
             # 1.
             # new_tiramisu = self.AtrousBlock(self.growth_rate)(tiramisu)
