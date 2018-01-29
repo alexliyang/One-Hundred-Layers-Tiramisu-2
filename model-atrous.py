@@ -96,12 +96,12 @@ class Tiramisu():
 
     def AtrousBlock(self, filters):
         def helper(input):
-            output = BatchNormalization(gamma_regularizer=self.regularizer,
-                                        beta_regularizer=self.regularizer)(input)
-            output = Activation('relu')(output)
+            # output = BatchNormalization(gamma_regularizer=self.regularizer,
+            #                             beta_regularizer=self.regularizer)(input)
+            # output = Activation('relu')(output)
             output = Conv2D(filters, kernel_size=(3, 3), padding='same',
                             dilation_rate=(2,2),
-                            kernel_regularizer=self.regularizer)(output)
+                            kernel_regularizer=self.regularizer)(input)
             return output
 
         return helper
