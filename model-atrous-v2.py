@@ -85,12 +85,12 @@ class Tiramisu():
 
     def AtrousLayer(self, filters):
         def helper(input):
-            # output = BatchNormalization(gamma_regularizer=self.regularizer,
-            #                             beta_regularizer=self.regularizer)(input)
-            # output = Activation('relu')(output)
+            output = BatchNormalization(gamma_regularizer=self.regularizer,
+                                        beta_regularizer=self.regularizer)(input)
+            output = Activation('relu')(output)
             output = Conv2D(filters, kernel_size=(3, 3), padding='same',
                             dilation_rate=(2,2),
-                            kernel_regularizer=self.regularizer)(input)
+                            kernel_regularizer=self.regularizer)(output)
             return output
 
         return helper
@@ -98,8 +98,6 @@ class Tiramisu():
     def create(self):
         input = Input(shape=self.input_shape)
 
-        # We perform a first convolution. All the features maps will be stored in the Tiramisu.
-        # first_conv_filters is 48 in the one hundred layers tiramisu.
         tiramisu = Conv2D(self.first_conv_filters, kernel_size=(3, 3), padding='same', 
                           input_shape=self.input_shape,
                           kernel_initializer=self.kernel_initializer,
@@ -111,21 +109,11 @@ class Tiramisu():
             for j in range(self.block_layers[i]):
                 l = self.Layer(self.growth_rate)(tiramisu)
                 tiramisu = Concatenate()([tiramisu, l])
-            # 1.
-            # new_tiramisu = self.AtrousLayer(self.growth_rate)(tiramisu)
-            # old_tiramisu = self.Bottleneck(self.growth_rate)(tiramisu)
-            # tiramisu = Concatenate()([old_tiramisu, new_tiramisu])
-            # 2.
-            # tiramisu = Concatenate()([tiramisu, self.AtrousLayer(self.growth_rate)(tiramisu)])
-            # 3.
-            # tiramisu = self.Bottleneck(self.growth_rate)(tiramisu)
-            # tiramisu = Concatenate()([tiramisu, self.AtrousLayer(self.growth_rate)(tiramisu)])
-            # 4.
             skip_connections.append(self.Bottleneck(self.growth_rate)(tiramisu))
             tiramisu = self.AtrousLayer(self.growth_rate)(tiramisu)
-
-        skip_connections = Concatenate()(skip_connections)
-        tiramisu = Concatenate()([skip_connections, tiramisu])
+            skip_connections.append(tiramisu)
+            tiramisu = Concatenate()(skip_connections)
+            skip_connections.pop()
 
         tiramisu = Conv2D(self.classes, kernel_size=(1, 1), padding='same',
                           kernel_initializer=self.kernel_initializer,
