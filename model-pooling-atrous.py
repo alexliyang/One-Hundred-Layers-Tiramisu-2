@@ -8,7 +8,6 @@ from keras.layers.normalization import BatchNormalization
 from keras.models import Model
 
 import json
-import tensorflow as tf
 
 set_image_data_format('channels_last')
 set_image_dim_ordering('tf')
@@ -128,11 +127,16 @@ class Tiramisu():
         return helper
 
     def BilinearUp(self, ratio):
+        def bilinear_interplolationd(image, size):
+            import tensorflow as tf
+            return tf.image.resize_images(image, size)
+
         def helper(input, skip_connection):
             size = K.int_shape(input)
             # print(size)
             size = (size[1] * ratio, size[2] * ratio)
-            output = Lambda(tf.image.resize_bilinear, arguments={'size': size})(input)
+            # output = Lambda(tf.image.resize_bilinear, arguments={'size': size})(input)
+            output = Lambda(bilinear_interplolationd, arguments={'size': size})(input)
             return Concatenate()([output, skip_connection])
 
         return helper
@@ -194,7 +198,7 @@ class Tiramisu():
             else:
                 n_keep_filters = self.growth_rate * self.n_layers_per_block[self.n_downsamples + i]
                 if self.use_bilinear_interplolation[i]:
-                    tiramisu = self.BilinearUp(2)(tiramisu, skip_connections[i])
+                    tiramisu = self.BilinearUp(2)(upsample_tiramisu, skip_connections[i])
                 else:
                     tiramisu = self.TransitionUp(n_keep_filters)(upsample_tiramisu, skip_connections[i])
 
