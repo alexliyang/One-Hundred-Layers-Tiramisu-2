@@ -18,12 +18,12 @@ class Tiramisu():
 
     def __init__(self, input_shape=(224, 224, 3), classes=12,
                  first_filters=48, growth_rate=16, pools=5,
-                 block_layers=[4, 5, 7, 10, 12, 15, 12, 10, 7, 5, 4],
+                 block_layers=[4, 5, 7, 10, 12, 15],
                  atrous=[False, False, False, True, True]):
 
         if type(block_layers) == list:
             if len(block_layers) == pools + 1:
-                block_layers += block_Layers[:-1][::-1]
+                block_layers += block_layers[:-1][::-1]
             else:
                 assert(len(block_layers) == pools * 2 + 1)
         elif type(block_layers) == int:
@@ -65,7 +65,7 @@ class Tiramisu():
             elif mode == 'linear_decay':
                 return 1 - (self.layer / self.layers) * (1 - survival_end)
             else:
-                raise
+                assert(False)
 
         def stochastic_survival(input, survival=1.0):
             survival = K.random_binomial((1,), p=survival)
@@ -77,8 +77,9 @@ class Tiramisu():
             output = Activation('relu')(output)
             output = Conv2D(filters, kernel_size=3, padding='same',
                             kernel_initializer=self.kernel_initializer)(output)
-            survival = get_survival()
-            output = Lambda(stochastic_survival, arguments={'survival': survival})(output)
+            # survival = get_survival()
+            # output = Lambda(stochastic_survival, arguments={'survival': survival})(output)
+            output = Dropout(0.2)(output)
             return output
 
         return helper
@@ -102,8 +103,7 @@ class Tiramisu():
                                         beta_regularizer=self.regularizer)(input)
             output = Activation('relu')(output)
             output = Conv2D(filters, kernel_size=3, padding='same',
-                            dilation_rate=(2,2),
-                            kernel_regularizer=self.regularizer)(input)
+                            dilation_rate=2, kernel_regularizer=self.regularizer)(input)
             return output
 
         return helper
