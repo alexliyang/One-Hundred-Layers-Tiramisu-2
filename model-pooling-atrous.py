@@ -8,6 +8,7 @@ from keras.layers.normalization import BatchNormalization
 from keras.models import Model
 
 import json
+import tensorflow as tf
 
 set_image_data_format('channels_last')
 set_image_dim_ordering('tf')
@@ -114,6 +115,13 @@ class Tiramisu():
                                      strides=2, padding='same',
                                      kernel_initializer=self.kernel_initializer)(input)
             return Concatenate()([output, skip_connection])
+
+        return helper
+
+    def BilinearUp(self, size):
+        def helper(input):
+            output = Lambda(tf.image.resize_bilinear, arguments={'size': size})(input)
+            return output
 
         return helper
 
