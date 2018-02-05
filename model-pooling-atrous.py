@@ -1,7 +1,7 @@
 from keras.backend import set_image_data_format, set_image_dim_ordering
 import keras.backend as K
 
-from keras.layers import Conv2D, Dropout, Input, Lambda, Concatenate
+from keras.layers import Conv2D, Conv2DTranspose, Dropout, Input, Lambda, Concatenate
 from keras.layers.core import Activation, Reshape
 from keras.layers.convolutional import MaxPooling2D
 from keras.layers.normalization import BatchNormalization
@@ -150,6 +150,7 @@ class Tiramisu():
                 tiramisu = self.TransitionDown(m)(tiramisu)
 
         skip_connections = skip_connections[::-1]
+        self.use_atrous = self.use_atrous[::-1]
 
         #####################
         #     Bottleneck    #
@@ -168,10 +169,10 @@ class Tiramisu():
         for i in range(self.n_downsamples):
             upsample_tiramisu = Concatenate()(upsample_tiramisu)
             if self.use_atrous[i]:
+                assert(skip_connections[i] == None)
+            else:
                 n_keep_filters = self.growth_rate * self.n_layers_per_block[self.n_downsamples + i]
                 tiramisu = self.TransitionUp(n_keep_filters)(upsample_tiramisu, skip_connections[i])
-            else:
-                assert(skip_connections[i] == None)
 
             upsample_tiramisu = []
             for j in range(self.n_layers_per_block[self.n_downsamples + i + 1]):
