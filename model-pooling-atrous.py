@@ -127,16 +127,14 @@ class Tiramisu():
         return helper
 
     def BilinearUp(self, ratio):
-        def bilinear_interplolationd(image, size):
+        def bilinear_interplolation(image, size):
             import tensorflow as tf
             return tf.image.resize_images(image, size)
 
         def helper(input, skip_connection):
             size = K.int_shape(input)
-            # print(size)
             size = (size[1] * ratio, size[2] * ratio)
-            # output = Lambda(tf.image.resize_bilinear, arguments={'size': size})(input)
-            output = Lambda(bilinear_interplolationd, arguments={'size': size})(input)
+            output = Lambda(bilinear_interplolation, arguments={'size': size})(input)
             return Concatenate()([output, skip_connection])
 
         return helper
