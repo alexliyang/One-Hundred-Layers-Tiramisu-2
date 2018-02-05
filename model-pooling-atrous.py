@@ -20,7 +20,8 @@ class Tiramisu():
     def __init__(self, input_shape=(224, 224, 3), classes=12,
                  first_filters=48, growth_rate=16, pools=5,
                  block_layers=[4, 5, 7, 10, 12, 15],
-                 atrous=[False, False, False, True, True]):
+                 atrous=[False, False, False, True, True],
+                 bilinear=[False, False, True, True, True]):
 
         if type(block_layers) == list:
             if len(block_layers) == pools + 1:
@@ -34,8 +35,15 @@ class Tiramisu():
 
         if type(atrous) == list:
             assert(len(atrous) == pools)
-        elif type(atrous) == int:
+        elif type(atrous) == bool:
             atrous = [atrous] * pools
+        else:
+            assert(False)
+
+        if type(bilinear) == list:
+            assert(len(bilinear) == pools)
+        elif type(bilinear) == bool:
+            bilinear = [bilinear] * pools
         else:
             assert(False)
 
@@ -46,6 +54,7 @@ class Tiramisu():
         self.n_downsamples = pools
         self.n_layers_per_block = block_layers
         self.use_atrous = atrous
+        self.use_bilinear_interplolation = bilinear
 
         self.layer = 0
         self.layers = sum(block_layers)
@@ -118,10 +127,13 @@ class Tiramisu():
 
         return helper
 
-    def BilinearUp(self, size):
-        def helper(input):
+    def BilinearUp(self, ratio):
+        def helper(input, skip_connection):
+            size = K.int_shape(input)
+            # print(size)
+            size = (size[1] * ratio, size[2] * ratio)
             output = Lambda(tf.image.resize_bilinear, arguments={'size': size})(input)
-            return output
+            return Concatenate()([output, skip_connection])
 
         return helper
 
@@ -178,9 +190,13 @@ class Tiramisu():
             upsample_tiramisu = Concatenate()(upsample_tiramisu)
             if self.use_atrous[i]:
                 assert(skip_connections[i] == None)
+                assert(not self.use_bilinear_interplolation[i])
             else:
                 n_keep_filters = self.growth_rate * self.n_layers_per_block[self.n_downsamples + i]
-                tiramisu = self.TransitionUp(n_keep_filters)(upsample_tiramisu, skip_connections[i])
+                if self.use_bilinear_interplolation[i]:
+                    tiramisu = self.BilinearUp(2)(tiramisu, skip_connections[i])
+                else:
+                    tiramisu = self.TransitionUp(n_keep_filters)(upsample_tiramisu, skip_connections[i])
 
             upsample_tiramisu = []
             for j in range(self.n_layers_per_block[self.n_downsamples + i + 1]):
