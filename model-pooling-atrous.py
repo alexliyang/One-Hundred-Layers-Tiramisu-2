@@ -189,22 +189,23 @@ class Tiramisu():
         #######################
 
         for i in range(self.n_downsamples):
-            upsample_tiramisu = Concatenate()(upsample_tiramisu)
             if self.use_atrous[i]:
                 assert(skip_connections[i] == None)
                 assert(not self.use_bilinear_interplolation[i])
             else:
+                upsample_tiramisu = Concatenate()(upsample_tiramisu)
+
                 n_keep_filters = self.growth_rate * self.n_layers_per_block[self.n_downsamples + i]
                 if self.use_bilinear_interplolation[i]:
                     tiramisu = self.BilinearUp(2)(upsample_tiramisu, skip_connections[i])
                 else:
                     tiramisu = self.TransitionUp(n_keep_filters)(upsample_tiramisu, skip_connections[i])
 
-            upsample_tiramisu = []
-            for j in range(self.n_layers_per_block[self.n_downsamples + i + 1]):
-                l = self.Layer(self.growth_rate)(tiramisu)
-                upsample_tiramisu.append(l)
-                tiramisu = Concatenate()([tiramisu, l])
+                upsample_tiramisu = []
+                for j in range(self.n_layers_per_block[self.n_downsamples + i + 1]):
+                    l = self.Layer(self.growth_rate)(tiramisu)
+                    upsample_tiramisu.append(l)
+                    tiramisu = Concatenate()([tiramisu, l])
 
         #####################
         #      Softmax      #
