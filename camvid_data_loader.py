@@ -50,6 +50,9 @@ def load_data(mode):
         # (3, 224, 224)
         # 如果我们使用tensorflow作为backend，可能不需要改变图像的维度顺序
 
+        data.append(np.rollaxis(normalized(cv2.imread(os.getcwd() + txt[i][0][7:])[:225, :225]), 0))
+        label.append(one_hot_it(cv2.imread(os.getcwd() + txt[i][1][7:][:-1])[:225, :225][:, :, 0], 224, 224))
+
         data.append(np.rollaxis(normalized(cv2.imread(os.getcwd() + txt[i][0][7:])[136:, 256:]), 0))
         label.append(one_hot_it(cv2.imread(os.getcwd() + txt[i][1][7:][:-1])[136:, 256:][:, :, 0], 224, 224))
     return np.array(data), np.array(label)
