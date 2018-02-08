@@ -52,19 +52,18 @@ def load_data(mode):
 
         data.append(np.rollaxis(normalized(cv2.imread(os.getcwd() + txt[i][0][7:])[136:, 256:]), 0))
         label.append(one_hot_it(cv2.imread(os.getcwd() + txt[i][1][7:][:-1])[136:, 256:][:, :, 0], 224, 224))
-        print('.', end='')
     return np.array(data), np.array(label)
 
 
 
 train_data, train_label = load_data("train")
-train_label = np.reshape(train_label,(367,data_shape,12))
+train_label = np.reshape(train_label, (train_data.shape[0], data_shape, 12))
 
 test_data, test_label = load_data("test")
-test_label = np.reshape(test_label,(233,data_shape,12))
+test_label = np.reshape(test_label, (test_data.shape[0], data_shape, 12))
 
 val_data, val_label = load_data("val")
-val_label = np.reshape(val_label,(101,data_shape,12))
+val_label = np.reshape(val_label, (val_data.shape[0], data_shape, 12))
 
 
 np.save("data/train_data", train_data)
