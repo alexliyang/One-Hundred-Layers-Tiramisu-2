@@ -194,11 +194,19 @@ optimizer = RMSprop(lr=0.001, decay=0.0000001)
 # optimizer = Adam(lr=1e-3, decay=0.995)
 
 def mean_iou(y_true, y_pred):
-    score, up_opt = tf.metrics.mean_iou(y_true, y_pred, 12)
+    import importlib
+    score = importlib.import_module('eval_segm').mean_IU(y_true, y_pred)
     K.get_session().run(tf.local_variables_initializer())
     with tf.control_dependencies([up_opt]):
         score = tf.identity(score)
     return score
+
+# def mean_iou(y_true, y_pred):
+#     score, up_opt = tf.metrics.mean_iou(y_true, y_pred, 12)
+#     K.get_session().run(tf.local_variables_initializer())
+#     with tf.control_dependencies([up_opt]):
+#         score = tf.identity(score)
+#     return score
 
 tiramisu.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=["accuracy", mean_iou])
 
