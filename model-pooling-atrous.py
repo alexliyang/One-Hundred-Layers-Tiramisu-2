@@ -93,6 +93,18 @@ class Tiramisu():
 
         return helper
 
+    def AtrousLayer(self, filters, rate=2):
+        def helper(input):
+            output = BatchNormalization(gamma_regularizer=self.regularizer,
+                                        beta_regularizer=self.regularizer)(input)
+            output = Activation('relu')(output)
+            output = Conv2D(filters, kernel_size=3, padding='same',
+                            dilation_rate=rate, kernel_regularizer=self.regularizer)(input)
+            output = Dropout(0.2)(output)
+            return output
+
+        return helper
+
     def TransitionDown(self, filters):
         def helper(input):
             output = BatchNormalization(gamma_regularizer=self.regularizer,
@@ -102,17 +114,6 @@ class Tiramisu():
                             kernel_initializer=self.kernel_initializer)(output)
             output = Dropout(0.2)(output)
             output = MaxPooling2D(pool_size=2, strides=2)(output)
-            return output
-
-        return helper
-
-    def AtrousDown(self, filters):
-        def helper(input):
-            output = BatchNormalization(gamma_regularizer=self.regularizer,
-                                        beta_regularizer=self.regularizer)(input)
-            output = Activation('relu')(output)
-            output = Conv2D(filters, kernel_size=3, padding='same',
-                            dilation_rate=2, kernel_regularizer=self.regularizer)(input)
             return output
 
         return helper
@@ -158,16 +159,22 @@ class Tiramisu():
         m = 0
         skip_connections = []
 
-        for i in range(self.n_downsamples):
-            for j in range(self.n_layers_per_block[i]):
-                l = self.Layer(self.growth_rate)(tiramisu)
-                tiramisu = Concatenate()([tiramisu, l])
-                m += self.growth_rate
+        atrous_rate = 1
 
+        for i in range(self.n_downsamples):
             if self.use_atrous[i]:
+                atrous_rate *= 2
+                for j in range(self.n_layers_per_block[i]):
+                    l = self.AtrousLayer(self.growth_rate, rate=atrous_rate)(tiramisu)
+                    tiramisu = Concatenate()([tiramisu, l])
+                    m += self.growth_rate
                 skip_connections.append(None)
-                tiramisu = self.AtrousDown(m)(tiramisu)
+                tiramisu = Concatenate()([tiramisu, self.AtrousLayer(self.growth_rate, rate=atrous_rate)(tiramisu)])
             else:
+                for j in range(self.n_layers_per_block[i]):
+                    l = self.Layer(self.growth_rate)(tiramisu)
+                    tiramisu = Concatenate()([tiramisu, l])
+                    m += self.growth_rate
                 skip_connections.append(tiramisu)
                 tiramisu = self.TransitionDown(m)(tiramisu)
 
