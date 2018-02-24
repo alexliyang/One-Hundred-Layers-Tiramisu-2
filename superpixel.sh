@@ -1,9 +1,8 @@
 #!/bin/bash
 
-declare -a sudirectory=("train" "val" "test")
+declare -a subdirectory=("train" "val" "test")
 
 for i in "${subdirectory[@]}"; do
-    echo ${i}
     python superpixel.py -d "./CamVid/${i}"
 done
 
