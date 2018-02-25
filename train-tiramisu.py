@@ -30,11 +30,11 @@ class_weighting = [
 
 # load the data
 train_data = np.load('./data/train_data.npy')
-train_data = train_data.reshape((int(train_data.size / (224 * 224 * 3)), 224, 224, 3))
+train_data = train_data.reshape((int(train_data.size / (224 * 224 * 6)), 224, 224, 6))
 train_label = np.load('./data/train_label.npy') # [:,:,:-1]
 
 test_data = np.load('./data/test_data.npy')
-test_data = test_data.reshape((int(test_data.size / (224 * 224 * 3)), 224, 224, 3))
+test_data = test_data.reshape((int(test_data.size / (224 * 224 * 6)), 224, 224, 6))
 test_label = np.load('./data/test_label.npy') # [:,:,:-1]
 
 

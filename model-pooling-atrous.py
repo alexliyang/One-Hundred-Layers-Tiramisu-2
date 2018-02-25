@@ -16,7 +16,8 @@ from keras.regularizers import l2
  
 class Tiramisu():
 
-    def __init__(self, input_shape=(224, 224, 3), classes=12,
+    def __init__(self, classes=12,
+                 input_shape=(224, 224, 6), origin_shape=(224, 224, 3), superpixel_shape=(224, 224, 3),
                  first_filters=48, growth_rate=16, pools=5,
                  block_layers=[4, 5, 7, 10, 12, 15],
                  atrous=[False, False, False, True, True],
@@ -46,7 +47,15 @@ class Tiramisu():
         else:
             assert(False)
 
+        assert(input_shape[0] == origin_shape[0])
+        assert(input_shape[1] == origin_shape[1])
+        assert(input_shape[0] == superpixel_shape[0])
+        assert(input_shape[1] == superpixel_shape[1])
+        assert(input_shape[2] == origin_shape[2] + superpixel_shape[2])
         self.input_shape = input_shape
+        self.origin_shape = origin_shape
+        self.superpixel_shape = superpixel_shape
+
         self.n_classes = classes
         self.n_first_filters = first_filters
         self.growth_rate = growth_rate
@@ -142,15 +151,24 @@ class Tiramisu():
 
     def create(self):
         input = Input(shape=self.input_shape)
+        def image_channels_slice(image, channel, before):
+            if before:
+                return image[:, :, :, :channel]
+            else:
+                return image[:, :, :, channel:]
+        origin = Lambda(image_channels_slice, arguments={'channel': 3, 'before': True})(input)
+        superpixel = Lambda(image_channels_slice, arguments={'channel': 3, 'before': False})(input)
+        # origin = Lambda(lambda x: x[:, :, :, :self.origin_shape[2]], output_shape=self.origin_shape)(input)
+        # superpixel = Lambda(lambda x: x[:, :, :, self.origin_shape[2]:], output_shape=self.superpixel_shape)(input)
 
         #####################
         # First Convolution #
         #####################
 
         tiramisu = Conv2D(self.n_first_filters, kernel_size=3, padding='same', 
-                          input_shape=self.input_shape,
+                          input_shape=self.origin_shape,
                           kernel_initializer=self.kernel_initializer,
-                          kernel_regularizer=self.regularizer)(input)
+                          kernel_regularizer=self.regularizer)(origin)
 
         #####################
         # Downsampling path #

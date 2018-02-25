@@ -50,7 +50,15 @@ def load_data(mode):
         # (3, 224, 224)
         # 如果我们使用tensorflow作为backend，可能不需要改变图像的维度顺序
 
-        data.append(np.rollaxis(normalized(cv2.imread(os.getcwd() + txt[i][0][7:])[:224, :224]), 0))
+        origin = np.rollaxis(normalized(cv2.imread(os.getcwd() + txt[i][0][7:])[:224, :224]), 0)
+
+        subtxt = txt[i][0][7:]
+        idx = subtxt.rfind('/')
+        superpixel_path = os.getcwd() + subtxt[:idx] + '/superpixel' + subtxt[idx:]
+        superpixel = cv2.imread(superpixel_path)[:224, :224]
+
+        data.append(np.dstack((origin, superpixel)))
+
         label.append(one_hot_it(cv2.imread(os.getcwd() + txt[i][1][7:][:-1])[:224, :224][:, :, 0], 224, 224))
 
         # data.append(np.rollaxis(normalized(cv2.imread(os.getcwd() + txt[i][0][7:])[136:, 256:]), 0))
