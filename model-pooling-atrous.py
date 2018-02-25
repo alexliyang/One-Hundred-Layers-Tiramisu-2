@@ -196,6 +196,11 @@ class Tiramisu():
                 skip_connections.append(tiramisu)
                 tiramisu = self.TransitionDown(m)(tiramisu)
 
+        if skip_connections[0] == None:
+            skip_connections[0] = superpixel
+        else:
+            skip_connections[0] = Concatenate()([skip_connections[0], superpixel])
+
         skip_connections = skip_connections[::-1]
         self.use_atrous = self.use_atrous[::-1]
 
