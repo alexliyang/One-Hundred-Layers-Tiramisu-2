@@ -158,8 +158,6 @@ class Tiramisu():
                 return image[:, :, :, channel:]
         origin = Lambda(image_channels_slice, arguments={'channel': 3, 'before': True})(input)
         superpixel = Lambda(image_channels_slice, arguments={'channel': 3, 'before': False})(input)
-        # origin = Lambda(lambda x: x[:, :, :, :self.origin_shape[2]], output_shape=self.origin_shape)(input)
-        # superpixel = Lambda(lambda x: x[:, :, :, self.origin_shape[2]:], output_shape=self.superpixel_shape)(input)
 
         #####################
         # First Convolution #
@@ -193,7 +191,8 @@ class Tiramisu():
                     l = self.Layer(self.growth_rate)(tiramisu)
                     tiramisu = Concatenate()([tiramisu, l])
                     m += self.growth_rate
-                skip_connections.append(tiramisu)
+                skip_connections.append(Conv2D(int(m / 2), kernel_size=1, kernel_initializer=self.kernel_initializer)(tiramisu))
+                # skip_connections.append(tiramisu)
                 tiramisu = self.TransitionDown(m)(tiramisu)
 
         if skip_connections[0] == None:
