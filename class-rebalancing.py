@@ -19,5 +19,7 @@ def count(mode):
     return s
 
 s = count('train') + count('val') + count('test')
-s = np.amin(s) / s * 10
+# s = np.amin(s) / s * 10
+s /= np.sum(s)
+s = np.median(s) / s
 print(s)

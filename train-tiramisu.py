@@ -54,7 +54,7 @@ test_label = np.load('./data/test_label.npy') # [:,:,:-1]
 with open('tiramisu_fc_dense_model.json') as model_file:
     tiramisu = model_from_json(model_file.read())
 
-# tiramisu.load_weights("weights/tiramisu_weights.best.hdf5")
+tiramisu.load_weights("weights/tiramisu_weights.best.hdf5")
 
 class CyclicLR(Callback):
     """This callback implements a cyclical learning rate policy (CLR).
