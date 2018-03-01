@@ -62,6 +62,22 @@ def mean_accuracy(eval_segm, gt_segm):
     mean_accuracy_ = np.mean(accuracy)
     return mean_accuracy_
 
+def all_classes_accuracy(eval_segm, gt_segm):
+    check_size(eval_segm, gt_segm)
+    cl, n_cl = extract_classes(gt_segm)
+    eval_mask, gt_mask = extract_both_masks(eval_segm, gt_segm, cl, n_cl)
+    accuracy = list([0]) * n_cl
+    for i, c in enumerate(cl):
+        curr_eval_mask = eval_mask[i, :, :]
+        curr_gt_mask = gt_mask[i, :, :]
+
+        n_ii = np.sum(np.logical_and(curr_eval_mask, curr_gt_mask))
+        t_i  = np.sum(curr_gt_mask)
+
+        if (t_i != 0):
+            accuracy[i] = n_ii / t_i
+    return accuracy
+
 def mean_IU(eval_segm, gt_segm):
     '''
     (1/n_cl) * sum_i(n_ii / (t_i + sum_j(n_ji) - n_ii))
